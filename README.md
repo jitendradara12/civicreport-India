@@ -1,6 +1,15 @@
-# CivicReport-India
+# CivicReport India
 
-A map-based platform for people in India to report and track local problems like potholes, garbage, etc. We'll map the issues and get them to the right city officials or contractors.
+A community-driven platform for reporting and tracking local infrastructure issues.
+
+## Project Overview
+- Map-based reporting system
+- Community verification system
+- Authority collaboration platform
+- Issue tracking and analytics
+
+## Getting Started
+[Documentation coming soon]
 
 ### How It's Built
 
