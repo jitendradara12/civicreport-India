@@ -43,3 +43,7 @@ venv/
 env/
 pip-log.txt
 *.egg-info/
+
+# AI instructions
+usethis.csv
+AI_INSTRUCTIONS.md
