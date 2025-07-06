@@ -1,12 +1,70 @@
+{% extends 'reports/base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="jumbotron">
-    <h1 class="display-4">Welcome to CivicReport India</h1>
-    <p class="lead">Report and track infrastructure issues in your community.</p>
-    <hr class="my-4">
-    <p>Help make your community better by reporting issues like potholes, broken streetlights, and more.</p>
-    <p class="lead">
-        <a class="btn btn-primary btn-lg" href="#" role="button">Report an Issue</a>
-    </p>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Report an Infrastructure Issue</h5>
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stats-card mb-3">
+            <div class="card-body text-center">
+                <h3 class="card-title text-primary">{{ total_reports|default:"0" }}</h3>
+                <p class="card-text">Total Reports</p>
+            </div>
+        </div>
+        <div class="card stats-card mb-3">
+            <div class="card-body text-center">
+                <h3 class="card-title text-success">{{ resolved_reports|default:"0" }}</h3>
+                <p class="card-text">Issues Resolved</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Recent Reports</h5>
+                <div class="list-group list-group-flush">
+                    {% for report in recent_reports %}
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ report.title }}</h6>
+                                <small>{{ report.reported_at|timesince }} ago</small>
+                            </div>
+                            <p class="mb-1">{{ report.location_description }}</p>
+                        </a>
+                    {% empty %}
+                        <p class="text-muted">No reports yet</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Initialize the map
+    const map = L.map('map').setView([20.5937, 78.9629], 5); // Center of India
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Enable location finding
+    map.locate({setView: true, maxZoom: 16});
+
+    // Handle location found
+    function onLocationFound(e) {
+        const radius = e.accuracy;
+        L.marker(e.latlng).addTo(map)
+            .bindPopup("You are within " + radius + " meters from this point").openPopup();
+    }
+
+    map.on('locationfound', onLocationFound);
+</script>
 {% endblock %}
