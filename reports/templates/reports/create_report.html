@@ -1,0 +1,12 @@
+{% extends "reports/base.html" %}
+
+{% block title %}Report an Issue{% endblock %}
+
+{% block content %}
+<h2>Report an Issue</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit Report</button>
+</form>
+{% endblock %}
